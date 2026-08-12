@@ -77,6 +77,14 @@ To disable a node, append `.disabled` to its folder name (officially skipped by 
 
 The observation that the hardcoded block count is the problem originates from [gazingstars123/ComfyUI-Anima-2.9B](https://github.com/gazingstars123/ComfyUI-Anima-2.9B) (Apache-2.0). The code here is an independent implementation of a fix for the same issue, differing in hook point (`Anima.get_model`), signature-agnostic forwarding, and post-load verification.
 
+## Development notes
+
+This project was vibe-coded with **Claude Opus 5** (Anthropic) in a Claude Code session: the investigation, the weight measurements and the code were all produced by the model under human direction.
+
+The block mapping is not guesswork. It was derived by comparing the actual `.safetensors` weights of `Anima-2.9B-preview-v1` against `anima-base-v1.0` tensor by tensor, which is how the 28 bit-identical blocks and the 12 insertion points were identified. The patch was then verified against the real model files before release.
+
+That said, please read the code before trusting it — it is short and single-purpose on purpose. Bug reports and corrections are welcome in the issue tracker.
+
 ## License
 
 GPL-3.0, matching ComfyUI itself, since this patch hooks ComfyUI internals directly.

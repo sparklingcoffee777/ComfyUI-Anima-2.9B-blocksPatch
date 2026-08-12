@@ -1,0 +1,17 @@
+[project]
+name = "comfyui-anima-2.9b-blockspatch"
+description = "Load-time patch so ComfyUI loads depth-expanded Anima models (Anima-2.9B, 40 blocks) correctly instead of silently truncating them to 28 blocks."
+version = "1.0.0"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+readme = "README.md"
+classifiers = ["Operating System :: OS Independent"]
+
+[project.urls]
+Repository = "https://github.com/sparklingcoffee777/ComfyUI-Anima-2.9B-blocksPatch"
+"Bug Tracker" = "https://github.com/sparklingcoffee777/ComfyUI-Anima-2.9B-blocksPatch/issues"
+
+[tool.comfy]
+PublisherId = "sparklingcoffee777"
+DisplayName = "Anima-2.9B blocks patch"
+Icon = ""

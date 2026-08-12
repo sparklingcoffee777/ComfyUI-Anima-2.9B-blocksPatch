@@ -65,7 +65,8 @@ def _built_blocks(model):
         return None  # unexpected model layout; verification not possible
 
 
-_orig_get_model = comfy.supported_models.Anima.get_model
+_anima_cls = getattr(comfy.supported_models, "Anima", None)
+_orig_get_model = getattr(_anima_cls, "get_model", None)
 
 
 def patched_get_model(self, *args, **kwargs):
@@ -125,10 +126,18 @@ def patched_get_model(self, *args, **kwargs):
 
 patched_get_model._anima29b_blocks_patch = True
 
-if getattr(_orig_get_model, "_anima29b_blocks_patch", False):
+if _orig_get_model is None:
+    # This ComfyUI has no Anima support at all -- nothing to patch, and nothing
+    # broken. Say so plainly instead of dying with an AttributeError traceback.
+    logging.warning(
+        "{} comfy.supported_models.Anima not found; this ComfyUI build has no Anima "
+        "support, so there is nothing to patch. Update ComfyUI to use Anima "
+        "models.".format(LOG_PREFIX)
+    )
+elif getattr(_orig_get_model, "_anima29b_blocks_patch", False):
     logging.info("{} already installed; skipping.".format(LOG_PREFIX))
 else:
-    comfy.supported_models.Anima.get_model = patched_get_model
+    _anima_cls.get_model = patched_get_model
     logging.info(
         "{} installed on comfy.supported_models.Anima.get_model "
         "(strict={}).".format(LOG_PREFIX, _strict())
