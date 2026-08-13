@@ -4,11 +4,21 @@
 
 A load-time patch that lets ComfyUI correctly load depth-expanded Anima models (Anima-2.9B: 40 blocks). No workflow nodes are added.
 
-## Status: you probably do not need this any more
+## Status: still needed on released ComfyUI
 
-ComfyUI merged native support for Anima tunes with extra blocks on 2026-08-12 ([PR #15555](https://github.com/Comfy-Org/ComfyUI/pull/15555)), deriving the block count from the state dict. **If your ComfyUI includes that commit, update instead of installing this.**
+ComfyUI merged a native fix on 2026-08-12 ([PR #15555](https://github.com/Comfy-Org/ComfyUI/pull/15555)) that derives the block count
+from the state dict. As of this writing that commit is **only on `master`** — it landed
+after the v0.32.0 release (2026-08-11) and is not in any tagged release yet.
 
-This patch is still useful if you are pinned to an older ComfyUI. Its post-load verification also has no upstream equivalent: it fails the load loudly rather than letting a truncated model through, which is handy if you build or expand Anima checkpoints yourself.
+So:
+
+- **On a released ComfyUI build** (v0.32.0 or earlier, Desktop, portable): you still need
+  this patch, or Anima-2.9B loads as a truncated 28-block model.
+- **Tracking `master` directly**: the fix is already in, and you can skip this patch.
+
+Its post-load verification has no upstream equivalent either — it fails the load loudly
+rather than letting a truncated model through, which is useful if you build or expand
+Anima checkpoints yourself.
 
 ## Why it is needed
 
